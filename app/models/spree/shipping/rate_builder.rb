@@ -17,6 +17,7 @@ module Spree::Shipping
         delivery_window_end: delivery_window.end,
         expires_at: expire_time
       )
+      adjust(rate)
       rate.cost ? rate : nil
     end
 
@@ -66,6 +67,12 @@ module Spree::Shipping
 
     def stock_location
       package.stock_location
+    end
+    
+    def adjust(rate, package)
+      stock_location.shipping_rate_adjusters.each do |adjuster|
+        adjuster.adjust(rate, package)
+      end
     end
   end
 end
