@@ -69,7 +69,7 @@ module Spree::Shipping
       package.stock_location
     end
     
-    def adjust(rate, package)
+    def adjust(rate)
       stock_location.shipping_rate_adjusters.each do |adjuster|
         adjuster.adjust(rate, package)
       end
