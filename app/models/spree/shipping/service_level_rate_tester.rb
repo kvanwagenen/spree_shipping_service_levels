@@ -15,7 +15,12 @@ module Spree::Shipping
     attr_reader :service_level, :rate, :ship_time
 
     def meets_latest_delivery_date_with?(rate)
-      (rate && rate.delivery_window && rate.delivery_window.end.nil?) || (rate.delivery_window.end <= latest_deliver_date.end_of_day && rate.delivery_window.start >= earliest_deliver_date.beginning_of_day)
+      rate && 
+      rate.delivery_window && 
+      rate.delivery_window.start && 
+      rate.delivery_window.end &&
+      rate.delivery_window.end <= latest_deliver_date.end_of_day && 
+      rate.delivery_window.start >= earliest_deliver_date.beginning_of_day
     end
 
     def latest_deliver_date
