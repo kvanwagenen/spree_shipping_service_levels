@@ -8,6 +8,7 @@ module Spree
       end
 
       def shipping_rates
+        return [] unless package.order
         sorted_unique_rates_for_service_levels
       end
 
