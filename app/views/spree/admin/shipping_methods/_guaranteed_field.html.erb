@@ -1,0 +1,7 @@
+<div data-hook="admin_shipping_method_form_guaranteed_field" class="col-md-4">
+  <%= f.field_container :guaranteed, :class => ['form-group'] do %>
+    <%= f.check_box :guaranteed %>
+    <%= f.label :guaranteed, Spree.t(:guaranteed) %>
+    <%= error_message_on :shipping_method, :guaranteed %>
+  <% end %>
+</div>

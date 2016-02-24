@@ -5,3 +5,4 @@ en:
   spree:
     shipping_rates_expired: "Shipping quotes have expired. Please select again."
     shipment_validation_error: "Error validating shipment."
+    guaranteed: Guaranteed
