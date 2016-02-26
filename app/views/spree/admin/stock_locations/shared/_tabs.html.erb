@@ -1,0 +1,18 @@
+<% content_for :page_title do %>
+  <%= link_to Spree.t(:stock_locations), admin_stock_locations_path %> /
+  <%= @stock_location.name %>
+<% end %>
+
+<% content_for :sidebar do %>
+  <ul class="nav nav-pills nav-stacked" data-hook="admin_product_tabs">
+    <%= content_tag :li, class: ('active' if current == :details) do %>
+      <%= link_to_with_icon 'edit', Spree.t(:details), edit_admin_stock_location_path(@stock_location) %>
+    <% end if can?(:admin, Spree::StockLocation) %>
+    <%= content_tag :li, class: ('active' if current == :service_levels) do %>
+      <%= link_to_with_icon 'list-alt', Spree.t(:service_levels), spree.admin_stock_location_shipping_service_levels_path(@stock_location) %>
+    <% end if can?(:admin, Spree::StockLocation) %>
+    <%= content_tag :li, class: ('active' if current == :shipping_methods) do %>
+      <%= link_to_with_icon 'th-large', Spree.t(:shipping_methods), spree.admin_stock_location_shipping_method_offerings_path(@stock_location) %>
+    <% end if can?(:admin, Spree::StockLocation) %>
+  </ul>
+<% end %>

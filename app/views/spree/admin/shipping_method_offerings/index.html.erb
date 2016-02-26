@@ -1,0 +1,47 @@
+<%= render partial: 'spree/admin/stock_locations/shared/tabs', locals: {current: :shipping_methods} %>
+<% content_for :page_title do %>
+   / <%= Spree.t(:shipping_methods) %>
+<% end %>
+
+<%= form_for [:admin, Spree::ShippingMethodOffering.new], url: admin_stock_location_shipping_method_offerings_path(@stock_location), method: 'post' do |f| %>
+  <div data-hook="metadata_fields" class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= f.collection_select :shipping_method_id, Spree::ShippingMethod.where.not(id: @stock_location.shipping_methods.map(&:id)).order("name ASC"), :id, :name, { include_blank: false }, { class: 'select2' } %>
+        <%= f.error_message_on :shipping_method_id %>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <div class="form-actions" data-hook="buttons">
+          <%= button Spree.t('actions.add'), 'add', 'submit', { class: 'btn-success' } %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th colspan="3"></th>
+          </tr>
+        </thead>
+        
+        <tbody>
+          <% @offerings.each do |offering| %>
+            <% shipping_method = Spree::ShippingMethod.find(offering.shipping_method_id) %>
+            <% next unless shipping_method %>
+            <tr>
+              <td><%= link_to shipping_method.name, edit_admin_shipping_method_path(shipping_method) %></td>
+              <td class="actions actions-3 text-right">
+                <%= link_to_delete offering, url: admin_stock_location_shipping_method_offering_path(@stock_location, offering.id), no_text: true %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% end %>

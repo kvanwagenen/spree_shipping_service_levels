@@ -1,0 +1,65 @@
+<%= render partial: 'spree/admin/stock_locations/shared/tabs', locals: {current: :service_levels} %>
+<% content_for :page_title do %>
+   / <%= Spree.t(:service_levels) %>
+<% end %>
+
+<%= form_for [:admin, @stock_location] do |f| %>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <div class="panel-title">Service Levels</div>
+    </div>
+    <div class="panel-body">
+      <%= button_link_to("Add Service Level", "javascript:;", { icon: 'add', :'data-target' => "tbody#service_levels", class: 'btn-success spree_add_fields' }) %>
+      <table class="table service-levels">
+        <colgroup>
+          <col style="width: 15%"></col>
+          <col style="width: 9%"></col>
+          <col style="width: 9%"></col>
+          <col style="width: 9%"></col>
+          <col style="width: 36%"></col>
+          <col style="width: 12%"></col>
+          <col style="width: 10%"></col>
+        </colgroup>
+        <thead>
+          <th>Display Name</th>
+          <th>Processing Days</th>
+          <th>Min Days To Deliver</th>
+          <th>Max Days To Deliver</th>
+          <th>Delivery Blackout Dates</th>
+          <th>Delivery Blackout Days</th>
+          <th>Actions</th>
+        </thead>
+        <tbody id="service_levels">
+          <%= f.fields_for :shipping_service_levels do |service_level_form| %>
+            <tr>
+              <td>
+                <%= service_level_form.text_field :name %>
+              </td>
+              <td>
+                <%= service_level_form.number_field :processing_days %>
+              </td>
+              <td>
+                <%= service_level_form.number_field :days_to_deliver_min %>
+              </td>
+              <td>
+                <%= service_level_form.number_field :days_to_deliver_max %>
+              </td>
+              <td>
+                <%= service_level_form.text_field :delivery_blackout_dates %>
+              </td>
+              <td>
+                <%= service_level_form.text_field :delivery_blackout_days %>
+              </td>
+              <td class="actions actions-1">
+                <% if service_level_form.object.persisted? && can?(:destroy, service_level_form.object) %>
+                  <%= link_to_delete service_level_form.object, url: url_for([:admin, @stock_location, service_level_form.object]), no_text: true %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <%= render :partial => 'spree/admin/shared/edit_resource_links' %>
+<% end %>
